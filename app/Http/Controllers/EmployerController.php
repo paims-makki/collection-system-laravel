@@ -23,7 +23,8 @@ class EmployerController extends Controller
             });
         }
 
-        $employers = $query->get();
+        $employers = $query->paginate(10)->withQueryString();
+
 
         return view('employer.index', compact('employers'));
     }
