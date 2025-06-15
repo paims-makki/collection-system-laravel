@@ -43,6 +43,8 @@ class BillingController extends Controller
     public function create()
     {
         //
+        $employers = employer::all();
+        return view('billing.create', compact('employers'));
     }
 
     /**

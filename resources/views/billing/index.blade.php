@@ -13,7 +13,7 @@
         </form>
 
         <div class="mb-4">
-            <a href="{{ route('employer.create') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+            <a href="{{ route('billing.create') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
                 + New Billing
             </a>
         </div>
