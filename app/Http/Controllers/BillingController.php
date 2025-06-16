@@ -53,6 +53,31 @@ class BillingController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'employer_id' => 'required|exists:employers,id',
+            'amount' => 'required|decimal:2',
+            'applicable_period' => 'required|string',
+            'no_of_months' => 'required|integer',
+            'premium' => 'required|decimal:2',
+            'interest' => 'required|decimal:2',
+            'type' => 'required|string',
+            'control_number' => 'required|string',
+            'status' => 'required|string',
+            'file_path' => 'nullable|file|mimes:pdf|max:2048',
+            'latest' => 'required|string'
+        ]);
+
+        $data = $request->except('file_path');
+
+        // Handle the file upload
+        if ($request->hasFile('file_path')) {
+            $path = $request->file('file_path')->store('billing_documents', 'public');
+            $data['file_path'] = $path;
+        }
+
+        billing::create($data);
+
+        return redirect()->route('billing.index')->with('success', 'Billing is successfully added in the database');
     }
 
     /**

@@ -4,7 +4,7 @@
     <div class="max-w-2xl mx-auto px-4 py-8 bg-white shadow rounded-lg">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Add New Billing</h2>
 
-        <form action="{{ route('billing.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('billing.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
 
             <div>
@@ -73,8 +73,10 @@
                 <select name="type" id="type" required
                     class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">-- Select Type --</option>
-                    <option value="Private" {{ old('type') == 'Private' ? 'selected' : '' }}>Private</option>
-                    <option value="Government" {{ old('type') == 'Government' ? 'selected' : '' }}>Government</option>
+                    <option value="Regular" {{ old('type') == 'Regular' ? 'selected' : '' }}>Regular</option>
+                    <option value="Under-payment" {{ old('type') == 'Under-payment' ? 'selected' : '' }}>Under-payment</option>
+                    <option value="Differential" {{ old('type') == 'Differential' ? 'selected' : '' }}>Differential</option>
+                    <option value="Differential-interest" {{ old('type') == 'Differential-interest' ? 'selected' : '' }}>Differential-interest</option>
                 </select>
                 @error('type')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
@@ -82,16 +84,33 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">Classification</label>
-                <select name="classification" id="classification" required
+                <label class="block text-sm font-medium text-gray-700">Control Number</label>
+                <input type="text" name="control_number" value="{{ old('control_number') }}" required
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                @error('control_number')
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Status</label>
+                <select name="status" id="status" required
                     class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">-- Select Classification --</option>
-                    <option value="xl" {{ old('classification') == 'xl' ? 'selected' : '' }}>XL</option>
-                    <option value="Large" {{ old('classification') == 'Large' ? 'selected' : '' }}>Large</option>
-                    <option value="Retail" {{ old('classification') == 'Retail' ? 'selected' : '' }}>Retail</option>
-                    <option value="Micro" {{ old('classification') == 'Micro' ? 'selected' : '' }}>Micro</option>
+                    <option value="">-- Select Type --</option>
+                    <option value="Generated" {{ old('status') == 'Generated' ? 'selected' : '' }}>Generated</option>
+                    <option value="Issued" {{ old('status') == 'Issued' ? 'selected' : '' }}>Issued</option>
+                    <option value="Case-Folder" {{ old('status') == 'Case-Folder' ? 'selected' : '' }}>Case Folder</option>
                 </select>
-                @error('classification')
+                @error('status')
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Scanned copy</label>
+                <input type="file" name="file_path" required
+                    class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2">
+                @error('file_path')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
                 @enderror
             </div>

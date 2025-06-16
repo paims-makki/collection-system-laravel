@@ -10,6 +10,6 @@ class employer extends Model
     protected $fillable = ['name', 'PEN', 'address', 'no_of_employees', 'name_of_head', 'type', 'classification', 'latest'];
 
     public function billing(){
-        return $this->belongsToMany(billing::class);
+        return $this->hasMany(billing::class);
     }
 }

@@ -59,9 +59,9 @@
                             </td>
                             <td class="px-4 py-2">{{ $billing->latest }}</td>
                             <td class="px-4 py-2 flex space-x-2">
-                                <a href="{{ route('employer.edit', $employer) }}"
+                                <a href="{{ route('billing.edit', $billing) }}"
                                    class="text-blue-600 hover:underline px-4">Edit</a>
-                                <form action="{{ route('employer.destroy', $employer) }}" method="POST" onsubmit="return confirm('Delete?')">
+                                <form action="{{ route('billing.destroy', $billing) }}" method="POST" onsubmit="return confirm('Delete?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:underline">Delete</button>
                                 </form>
