@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\employer;
 use App\Models\billing;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
@@ -91,24 +92,58 @@ class BillingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(billing $billing)
     {
         //
+        $employers = employer::all();
+        return view('billing.edit', compact('billing', 'employers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, billing $billing)
     {
         //
+        $request->validate([
+            'employer_id' => 'required|exists:employers,id',
+            'amount' => 'required|decimal:2',
+            'applicable_period' => 'required|string',
+            'no_of_months' => 'required|integer',
+            'premium' => 'required|decimal:2',
+            'interest' => 'required|decimal:2',
+            'type' => 'required|string',
+            'control_number' => 'required|string',
+            'status' => 'required|string',
+            'file_path' => 'nullable|file|mimes:pdf|max:2048',
+            'latest' => 'required|string'
+        ]);
+
+        // If there's a new file, delete the old one and save the new one
+        if ($request->hasFile('file_path')) {
+            // Delete old file if it exists
+            if ($billing->file_path && Storage::disk('public')->exists($billing->file_path)) {
+                Storage::disk('public')->delete($billing->file_path);
+            }
+
+            // Store the new file
+            $newPath = $request->file('file_path')->store('billing_files', 'public');
+            $validated['file_path'] = $newPath;
+        }
+
+         // Update the billing record with validated + new file path (if any)
+        $billing->update($validated);
+
+        return redirect()->route('billing.index')->with('success', 'Billing updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(billing $billing)
     {
         //
+        $billing->delete();
+        return redirect()->route('billing.index')->with('success', 'Billing is successfully deleted.');
     }
 }
