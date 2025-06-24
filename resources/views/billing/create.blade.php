@@ -73,10 +73,12 @@
                 <select name="type" id="type" required
                     class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">-- Select Type --</option>
-                    <option value="Regular" {{ old('type') == 'Regular' ? 'selected' : '' }}>Regular</option>
+                    <option value="Delinquency" {{ old('type') == 'Delinquency' ? 'selected' : '' }}>Delinquency</option>
                     <option value="Under-payment" {{ old('type') == 'Under-payment' ? 'selected' : '' }}>Under-payment</option>
-                    <option value="Differential" {{ old('type') == 'Differential' ? 'selected' : '' }}>Differential</option>
-                    <option value="Differential-interest" {{ old('type') == 'Differential-interest' ? 'selected' : '' }}>Differential-interest</option>
+                    <option value="Differential-EO-62" {{ old('type') == 'Differential-EO-62' ? 'selected' : '' }}>Differential E. O. 62</option>
+                    <option value="Differential-one-percent" {{ old('type') == 'Differential-one-percent' ? 'selected' : '' }}>Differential 1%</option>
+                    <option value="Penalty" {{ old('type') == 'Penalty' ? 'selected' : '' }}>Penalty</option>
+                    <option value="Penalty-differential" {{ old('type') == 'Penalty-differential' ? 'selected' : '' }}>Penalty Differential</option>
                 </select>
                 @error('type')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
@@ -100,11 +102,32 @@
                     <option value="Generated" {{ old('status') == 'Generated' ? 'selected' : '' }}>Generated</option>
                     <option value="Issued" {{ old('status') == 'Issued' ? 'selected' : '' }}>Issued</option>
                     <option value="Case-Folder" {{ old('status') == 'Case-Folder' ? 'selected' : '' }}>Case Folder</option>
+                    <option value="Settled" {{ old('status') == 'Settled' ? 'selected' : '' }}>Settled</option>
                 </select>
                 @error('status')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Status Date</label>
+                <input type="date" name="status_date" required
+                    class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2">
+                @error('status_date')
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Remarks</label>
+                <textarea name="remarks" rows="4"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter remarks or notes here...">{{ old('remarks') }}</textarea>
+                @error('remarks')
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Scanned copy</label>
@@ -125,7 +148,7 @@
             </div>
 
             <div class="flex justify-end space-x-4 pt-4">
-                <a href="{{ route('employer.index') }}"
+                <a href="{{ route('billing.index') }}"
                    class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition">Cancel</a>
                 <button type="submit"
                         class="bg-blue-600 text-black px-6 py-2 rounded hover:bg-blue-700 transition">Save</button>

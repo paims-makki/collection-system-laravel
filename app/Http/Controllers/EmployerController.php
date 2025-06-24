@@ -19,9 +19,12 @@ class EmployerController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%");
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('PEN', 'like', "%{$search}%");
             });
         }
+
+        $query->orderBy('name', 'asc');
 
         $employers = $query->paginate(10)->withQueryString();
 

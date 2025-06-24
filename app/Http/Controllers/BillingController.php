@@ -33,6 +33,8 @@ class BillingController extends Controller
             });
         }
 
+        $query->orderBy('control_number', 'asc');
+
          $billings = $query->paginate(10)->withQueryString();
 
         return view('billing.index', compact('billings'));
@@ -65,7 +67,9 @@ class BillingController extends Controller
             'control_number' => 'required|string',
             'status' => 'required|string',
             'file_path' => 'nullable|file|mimes:pdf|max:2048',
-            'latest' => 'required|string'
+            'latest' => 'required|string',
+            'status_date' => 'required|date',
+            'remarks' => 'required|string'
         ]);
 
         $data = $request->except('file_path');
@@ -105,7 +109,7 @@ class BillingController extends Controller
     public function update(Request $request, billing $billing)
     {
         //
-        $request->validate([
+        $validated = $request->validate([
             'employer_id' => 'required|exists:employers,id',
             'amount' => 'required|decimal:2',
             'applicable_period' => 'required|string',
@@ -116,7 +120,9 @@ class BillingController extends Controller
             'control_number' => 'required|string',
             'status' => 'required|string',
             'file_path' => 'nullable|file|mimes:pdf|max:2048',
-            'latest' => 'required|string'
+            'latest' => 'required|string',
+            'status_date' => 'required|date',
+            'remarks' => 'required|string'
         ]);
 
         // If there's a new file, delete the old one and save the new one

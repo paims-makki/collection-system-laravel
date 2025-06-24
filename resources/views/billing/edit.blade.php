@@ -74,10 +74,12 @@
                 <select name="type" id="type" required
                     class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">-- Select Type --</option>
-                    <option value="Regular" {{ old('type', $billing->type) == 'Regular' ? 'selected' : '' }}>Regular</option>
+                    <option value="Delinquency" {{ old('type', $billing->type) == 'Delinquency' ? 'selected' : '' }}>Delinquency</option>
                     <option value="Under-payment" {{ old('type', $billing->type) == 'Under-payment' ? 'selected' : '' }}>Under-payment</option>
-                    <option value="Differential" {{ old('type', $billing->type) == 'Differential' ? 'selected' : '' }}>Differential</option>
-                    <option value="Differential-interest" {{ old('type', $billing->type) == 'Differential-interest' ? 'selected' : '' }}>Differential-interest</option>
+                    <option value="Differential-EO-62" {{ old('type', $billing->type) == 'Differential-EO-62' ? 'selected' : '' }}>Differential E. O. 62</option>
+                    <option value="Differential-one-percent" {{ old('type', $billing->type) == 'Differential-one-percent' ? 'selected' : '' }}>Differential 1%</option>
+                    <option value="Penalty" {{ old('type', $billing->type) == 'Penalty' ? 'selected' : '' }}>Penalty</option>
+                    <option value="Penalty-differential" {{ old('type', $billing->type) == 'Penalty-differential' ? 'selected' : '' }}>Penalty Differential</option>
                 </select>
                 @error('type')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
@@ -101,8 +103,28 @@
                     <option value="Generated" {{ old('status', $billing->status) == 'Generated' ? 'selected' : '' }}>Generated</option>
                     <option value="Issued" {{ old('status', $billing->status) == 'Issued' ? 'selected' : '' }}>Issued</option>
                     <option value="Case-Folder" {{ old('status', $billing->status) == 'Case-Folder' ? 'selected' : '' }}>Case Folder</option>
+                    <option value="Settled" {{ old('Settled', $billing->status) == 'Settled' ? 'selected' : '' }}>Settled</option>
                 </select>
                 @error('status')
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Status Date:</label>
+                <input type="date" name="status_date" value="{{ old('status_date', $billing->status_date) }}" required
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                @error('status_date')
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Remarks</label>
+                <textarea name="remarks" rows="4"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter remarks or notes here...">{{ old('remarks'), $billing->remarks }}</textarea>
+                @error('remarks')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
                 @enderror
             </div>

@@ -6,7 +6,7 @@
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('employer.index') }}" class="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name"
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name or PEN"
                 class="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" />
             <button type="submit"
                 class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Search</button>

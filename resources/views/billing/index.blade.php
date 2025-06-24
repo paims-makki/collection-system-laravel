@@ -22,6 +22,7 @@
             <table class="min-w-full text-sm text-left text-gray-700">
                 <thead class="bg-gray-100 text-xs uppercase text-gray-600">
                     <tr>
+                        <th class="px-4 py-3">Control Number</th>
                         <th class="px-4 py-3">Name of Employer</th>
                         <th class="px-4 py-3">PEN of Employer</th>
                         <th class="px-4 py-3">Amount</th>
@@ -30,9 +31,10 @@
                         <th class="px-4 py-3">Premium</th>
                         <th class="px-4 py-3">Interest</th>
                         <th class="px-4 py-3">Type</th>
-                        <th class="px-4 py-3">Control Number</th>
                         <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Date</th>
                         <th class="px-4 py-3">Scanned file</th>
+                        <th class="px-4 py-3">Remarks</th>
                         <th class="px-4 py-3">Latest</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>
@@ -40,16 +42,17 @@
                 <tbody>
                     @foreach ($billings as $billing)
                         <tr class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-2">{{ $billing->control_number }}</td>
                             <td class="px-4 py-2">{{ $billing->employer->name }}</td>
                             <td class="px-4 py-2">{{ $billing->employer->PEN }}</td>
-                            <td class="px-4 py-2">{{ $billing->amount }}</td>
+                            <td class="px-4 py-2">{{ number_format($billing->amount, 2) }}</td>
                             <td class="px-4 py-2">{{ $billing->applicable_period }}</td>
                             <td class="px-4 py-2">{{ $billing->no_of_months }}</td>
-                            <td class="px-4 py-2">{{ $billing->premium }}</td>
-                            <td class="px-4 py-2">{{ $billing->interest }}</td>
+                            <td class="px-4 py-2">{{ number_format($billing->premium, 2) }}</td>
+                            <td class="px-4 py-2">{{ number_format($billing->interest, 2) }}</td>
                             <td class="px-4 py-2">{{ $billing->type }}</td>
-                            <td class="px-4 py-2">{{ $billing->control_number }}</td>
                             <td class="px-4 py-2">{{ $billing->status }}</td>
+                            <td class="px-4 py-2">{{ $billing->status_date }}</td>
                             <td>
                                 @if ($billing->file_path)
                                 <a href="{{ asset('storage/' . $billing->file_path) }}" target="_blank" class="text-blue-600 hover:underline">View</a>
@@ -57,6 +60,7 @@
                                     No file
                                  @endif
                             </td>
+                            <td class="px-4 py-2">{{ $billing->remarks }}</td>
                             <td class="px-4 py-2">{{ $billing->latest }}</td>
                             <td class="px-4 py-2 flex space-x-2">
                                 <a href="{{ route('billing.edit', $billing) }}"
