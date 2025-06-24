@@ -52,7 +52,7 @@
                             <td class="px-4 py-2">{{ number_format($billing->interest, 2) }}</td>
                             <td class="px-4 py-2">{{ $billing->type }}</td>
                             <td class="px-4 py-2">{{ $billing->status }}</td>
-                            <td class="px-4 py-2">{{ $billing->status_date }}</td>
+                            <td class="{{ ($billing->is_overdue && $billing->status == 'Issued') ? 'text-red-600 font-semibold' : '' }} px-4 py-2">{{ $billing->status_date }}</td>
                             <td>
                                 @if ($billing->file_path)
                                 <a href="{{ asset('storage/' . $billing->file_path) }}" target="_blank" class="text-blue-600 hover:underline">View</a>

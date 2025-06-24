@@ -123,7 +123,7 @@
                 <label class="block text-sm font-medium text-gray-700">Remarks</label>
                 <textarea name="remarks" rows="4"
                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter remarks or notes here...">{{ old('remarks'), $billing->remarks }}</textarea>
+                    placeholder="Enter remarks or notes here...">{{ old('remarks', $billing->remarks) }}</textarea>
                 @error('remarks')
                     <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
                 @enderror

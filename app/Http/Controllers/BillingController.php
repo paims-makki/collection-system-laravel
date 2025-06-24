@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\employer;
 use App\Models\billing;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -36,6 +37,11 @@ class BillingController extends Controller
         $query->orderBy('control_number', 'asc');
 
          $billings = $query->paginate(10)->withQueryString();
+
+         // ➕ Add this loop to tag if overdue
+        foreach ($billings as $billing) {
+            $billing->is_overdue = Carbon::parse($billing->status_date)->diffInDays(now()) >= 15;
+        }
 
         return view('billing.index', compact('billings'));
     }
