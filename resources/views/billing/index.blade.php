@@ -45,11 +45,11 @@
                             <td class="px-4 py-2">{{ $billing->control_number }}</td>
                             <td class="px-4 py-2">{{ $billing->employer->name }}</td>
                             <td class="px-4 py-2">{{ $billing->employer->PEN }}</td>
-                            <td class="px-4 py-2">{{ number_format($billing->amount, 2) }}</td>
+                            <td class="px-4 py-2">&#8369;{{ number_format($billing->amount, 2) }}</td>
                             <td class="px-4 py-2">{{ $billing->applicable_period }}</td>
                             <td class="px-4 py-2">{{ $billing->no_of_months }}</td>
-                            <td class="px-4 py-2">{{ number_format($billing->premium, 2) }}</td>
-                            <td class="px-4 py-2">{{ number_format($billing->interest, 2) }}</td>
+                            <td class="px-4 py-2">&#8369;{{ number_format($billing->premium, 2) }}</td>
+                            <td class="px-4 py-2">&#8369;{{ number_format($billing->interest, 2) }}</td>
                             <td class="px-4 py-2">{{ $billing->type }}</td>
                             <td class="px-4 py-2">{{ $billing->status }}</td>
                             <td class="{{ ($billing->is_overdue && $billing->status == 'Issued') ? 'text-red-600 font-semibold' : '' }} px-4 py-2">{{ $billing->status_date }}</td>

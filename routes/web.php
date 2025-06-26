@@ -3,13 +3,15 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\dashboardController;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -18,7 +20,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('employer', \App\Http\Controllers\EmployerController::class);
     Route::resource('billing', \App\Http\Controllers\BillingController::class);
-
+    Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/auth.php';
