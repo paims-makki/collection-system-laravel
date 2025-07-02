@@ -1,4 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="chart.umd.js"></script>
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-semibold text-gray-800 mb-6">Dashboard</h1>
