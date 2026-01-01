@@ -72,7 +72,7 @@ class BillingController extends Controller
             'type' => 'required|string',
             'control_number' => 'required|string',
             'status' => 'required|string',
-            'file_path' => 'nullable|file|mimes:pdf|max:2048',
+            'file_path' => 'nullable|file|mimes:pdf',
             'latest' => 'required|string',
             'status_date' => 'required|date',
             'remarks' => 'required|string'
@@ -125,7 +125,7 @@ class BillingController extends Controller
             'type' => 'required|string',
             'control_number' => 'required|string',
             'status' => 'required|string',
-            'file_path' => 'nullable|file|mimes:pdf|max:2048',
+            'file_path' => 'nullable|file|mimes:pdf',
             'latest' => 'required|string',
             'status_date' => 'required|date',
             'remarks' => 'required|string'

@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('employer', \App\Http\Controllers\EmployerController::class);
     Route::resource('billing', \App\Http\Controllers\BillingController::class);
+    Route::resource('ams', \App\Http\Controllers\AmsController::class);
+    Route::post('/ams/import', [\App\Http\Controllers\AmsController::class, 'import'])
+    ->name('ams.import');
     Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard');
 });
 
