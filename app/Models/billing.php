@@ -12,4 +12,8 @@ class billing extends Model
     public function employer(){
         return $this->belongsTo(employer::class);
     }
+
+    public function billing_histories(){
+        return $this->hasMany(billing_histories::class, 'billing_id');
+    }
 }

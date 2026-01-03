@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\employer;
 use App\Models\billing;
+use App\Models\billing_histories;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 
@@ -17,7 +18,8 @@ class BillingController extends Controller
     public function index(Request $request)
     {
         //
-        $query = billing::query();
+         $query = billing::query()
+        ->with(['employer', 'billing_histories']); // ✅ ADD THIS LINE
 
         if ($request->has('search')) {
             $search = $request->input('search');
@@ -130,6 +132,20 @@ class BillingController extends Controller
             'status_date' => 'required|date',
             'remarks' => 'required|string'
         ]);
+
+        //save history
+        billing_histories::create([
+            'billing_id' => $billing->id,
+            'old_status' => $billing->status,
+            'new_status' => $validated['status'],
+            'old_status_date' => $billing->status_date,
+            'new_status_date' => $validated['status_date'],
+            'old_remarks' => $billing->remarks,
+            'new_remarks' => $validated['remarks'],
+            'old_latest' => $billing->latest,
+            'new_latest' => $validated['latest']
+        ]);
+
 
         // If there's a new file, delete the old one and save the new one
         if ($request->hasFile('file_path')) {
