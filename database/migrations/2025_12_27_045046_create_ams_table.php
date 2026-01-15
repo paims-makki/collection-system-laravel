@@ -27,9 +27,9 @@ return new class extends Migration
             $table->decimal('may', 15,2)->nullable();
             $table->integer('may_ee')->nullable();
             $table->decimal('june', 15,2)->nullable();
-            $table->integer('june_ee')->nullable();
+            $table->integer('jun_ee')->nullable();
             $table->decimal('july', 15,2)->nullable();
-            $table->integer('july_ee')->nullable();
+            $table->integer('jul_ee')->nullable();
             $table->decimal('august', 15,2)->nullable();
             $table->integer('aug_ee')->nullable();
             $table->decimal('september', 15,2)->nullable();
