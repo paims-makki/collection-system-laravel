@@ -12,7 +12,7 @@ class dashboardController extends Controller
 {
     //
     public function index(){
-        $totalEmployers = employer::count();
+        $totalEmployers = employer::whereHas('billing')->count();
         $totalBillings = billing::count();
         $issuedBillings = billing::where('status', 'Issued')->get();
         $totalIssuedBillings = billing::where('status', 'Issued')->count();

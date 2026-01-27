@@ -124,7 +124,7 @@
                                                 <td class="px-2 py-1">{{ $history->old_remarks }}</td>
                                                 <td class="px-2 py-1">{{ $history->new_remarks }}</td>
                                                 <td class="px-2 py-1">{{ $history->old_latest }}</td>
-                                                <td class="px-2 py-1">{{ $history->new_remarks }}</td>
+                                                <td class="px-2 py-1">{{ $history->new_latest }}</td>
                                                 <td class="px-2 py-1">{{ $history->created_at }}</td>
                                             </tr>
                                         @endforeach

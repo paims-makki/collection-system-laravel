@@ -12,4 +12,8 @@ class employer extends Model
     public function billing(){
         return $this->hasMany(billing::class);
     }
+
+    public function ipsTask(){
+        return $this->hasMany(ipsTask::class);
+    }
 }

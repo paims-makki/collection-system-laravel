@@ -36,9 +36,9 @@ class BillingController extends Controller
             });
         }
 
-        $query->orderBy('control_number', 'asc');
+        $query->orderBy('created_at', 'desc');
 
-         $billings = $query->paginate(10)->withQueryString();
+         $billings = $query->paginate(5)->withQueryString();
 
          // ➕ Add this loop to tag if overdue
         foreach ($billings as $billing) {
@@ -54,7 +54,7 @@ class BillingController extends Controller
     public function create()
     {
         //
-        $employers = employer::all();
+        $employers = Employer::orderBy('name', 'asc')->get();
         return view('billing.create', compact('employers'));
     }
 
@@ -107,7 +107,7 @@ class BillingController extends Controller
     public function edit(billing $billing)
     {
         //
-        $employers = employer::all();
+        $employers = Employer::orderBy('name', 'asc')->get();
         return view('billing.edit', compact('billing', 'employers'));
     }
 

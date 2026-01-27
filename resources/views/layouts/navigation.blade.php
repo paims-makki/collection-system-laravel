@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('ams.index')" :active="request()->routeIs('ams')">
                         {{ __('AMS') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('ips.index')" :active="request()->routeIs('ips')">
+                        {{ __('IPS') }}
+                    </x-nav-link>
                 </div>
             </div>
 
