@@ -17,7 +17,7 @@ class ipsController extends Controller
     {
         $query = ipsTask::query()->with(['employer']);
         
-        if($request->has('search')) {
+        if($request->filled('search')) {
             $search = $request->input('search');
 
             $query->where(function($q) use ($search){
