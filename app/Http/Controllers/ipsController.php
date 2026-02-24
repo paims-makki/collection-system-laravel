@@ -28,7 +28,7 @@ class ipsController extends Controller
                     
                     //search in employer table
                     ->orWhereHas('employer', function($sub) use ($search){
-                        $sub->where('name', 'like', "&{$search}&" )
+                        $sub->where('name', 'like', "%{$search}%" )
                             ->orWhere('PEN', 'like', "%{$search}%");
                     });
             });
