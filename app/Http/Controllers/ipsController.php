@@ -25,6 +25,7 @@ class ipsController extends Controller
                     ->orWhere('perspective', 'like', '%'. $search . '%')
                     ->orWhere('responsible_unit', 'like', '%'. $search . '%')
                     ->orWhere('requestor', 'like', '%'. $search . '%')
+                    ->orWhere('specific_task', 'like', '%'. $search . '%')
                     
                     //search in employer table
                     ->orWhereHas('employer', function($sub) use ($search){

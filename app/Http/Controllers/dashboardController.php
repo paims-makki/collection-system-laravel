@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\billing;
 use App\Models\employer;
 use App\Models\ams;
+use App\Models\ipsTask;
+use Illuminate\Support\Facades\DB;
 
 class dashboardController extends Controller
 {
@@ -69,8 +71,50 @@ class dashboardController extends Controller
         $loadLabels = $loadStatus->pluck('status');
         $loadCounts = $loadStatus->pluck('total');
 
+        //this the load perspectives
+        $perspectives = DB::table('ips_tasks')
+        ->select('perspective')
+        ->distinct()
+        ->orderBy('perspective')
+        ->pluck('perspective');
+
+        //this to get data for the stacked chart
+        $data = DB::table('ips_tasks')
+        ->selectRaw('perspective,
+            SUM(CASE WHEN status = "Completed" THEN 1 ELSE 0 END) as completed,
+            SUM(CASE WHEN status = "Transmitted" THEN 1 ELSE 0 END) as transmitted,
+            SUM(CASE WHEN status = "Pending" THEN 1 ELSE 0 END) as pending
+        ')
+        ->groupBy('perspective')
+        ->orderBy('perspective')
+        ->get();
+
+        //this preparing data for the chart
+        $labels = $data->pluck('perspective');
+        $completed = $data->pluck('completed');
+        $transmitted = $data->pluck('transmitted');
+        $pending = $data->pluck('pending');
+
         return view('dashboard', compact(
-            'totalEmployers', 'totalBillings', 'issuedBillings', 'overdueBillings', 'generatedBillings', 'typeLabels', 'typeCounts', 'totalOverdueBillings', 'totalIssuedBillings', 'totalGeneratedBillings', 'totalCaseFolderBillings', 'caseFolderBillings', 'totalSettledBillings', 'settledBillings', 'statusLabels', 'statusCounts', 'latestImportedData', 'totalRemitting', 'totalAccountLoad', 'totalDelinquent', 'totalNonRemitting', 'loadLabels', 'loadCounts'
+            'totalEmployers', 'totalBillings', 'issuedBillings', 'overdueBillings', 'generatedBillings', 'typeLabels', 'typeCounts', 'totalOverdueBillings', 'totalIssuedBillings', 'totalGeneratedBillings', 'totalCaseFolderBillings', 'caseFolderBillings', 'totalSettledBillings', 'settledBillings', 'statusLabels', 'statusCounts', 'latestImportedData', 'totalRemitting', 'totalAccountLoad', 'totalDelinquent', 'totalNonRemitting', 'loadLabels', 'loadCounts', 'perspectives', 'labels', 'completed', 'pending', 'transmitted'
         ));
+    }
+
+    public function getTatData(Request $request)
+    {
+        $perspective = $request->perspective;
+
+        $data = DB::table('ips_tasks')
+            ->selectRaw('
+                DATE_FORMAT(status_date, "%Y-%m") as month,
+                AVG(TAT) as avg_tat
+            ')
+            ->where('perspective', $perspective)
+            ->whereNotNull('status_date')
+            ->groupBy(DB::raw('DATE_FORMAT(status_date, "%Y-%m")'))
+            ->orderBy('month')
+            ->get();
+
+        return response()->json($data);
     }
 }

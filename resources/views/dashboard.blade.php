@@ -435,6 +435,111 @@
             });
         </script>
 
+        <!-- this the stacked chart for the ips -->
+
+        <canvas id="statusChart"></canvas>
+
+        <script src="{{ asset('chart.js') }}"></script>
+
+        <script>
+        const ctx = document.getElementById('statusChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($labels),
+                datasets: [
+                    {
+                        label: 'Completed',
+                        data: @json($completed),
+                        backgroundColor: '#4CAF50'
+                    },
+                    {
+                        label: 'Transmitted',
+                        data: @json($transmitted),
+                        backgroundColor: '#2196F3'
+                    },
+                    {
+                        label: 'Pending',
+                        data: @json($pending),
+                        backgroundColor: '#FF9800'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        </script>
+
+        <!-- this the line chart for avg TAT -->
+         <select id="perspectiveSelect" class="form-control">
+            @foreach($perspectives as $perspective)
+                <option value="{{ $perspective }}">{{ $perspective }}</option>
+            @endforeach
+        </select>
+
+        <canvas id="tatChart"></canvas>
+
+        <script src="{{ asset('chart.js') }}"></script>
+        <script>
+        let chart;
+
+        function loadChart(perspective) {
+            fetch(`/tat-data?perspective=${perspective}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    const labels = data.map(item => item.month);
+                    const values = data.map(item => item.avg_tat);
+
+                    if (chart) chart.destroy();
+
+                    const ctx = document.getElementById('tatChart');
+
+                    chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Average TAT',
+                                data: values,
+                                borderWidth: 2,
+                                tension: 0.3,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        }
+
+        // Load default first task
+        loadChart(document.getElementById('perspectiveSelect').value);
+
+        // On dropdown change
+        document.getElementById('perspectiveSelect')
+            .addEventListener('change', function() {
+                loadChart(this.value);
+            });
+        </script>
+
     </div>
     
 </x-app-layout>

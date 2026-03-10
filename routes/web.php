@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/ams/import', [\App\Http\Controllers\AmsController::class, 'import'])
     ->name('ams.import');
     Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard');
+    Route::get('/tat-data', [dashboardController::class, 'getTatData'])->name('tat.data');
 });
 
 require __DIR__.'/auth.php';
