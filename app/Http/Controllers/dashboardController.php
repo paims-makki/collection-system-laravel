@@ -71,12 +71,16 @@ class dashboardController extends Controller
         $loadLabels = $loadStatus->pluck('status');
         $loadCounts = $loadStatus->pluck('total');
 
-        //this the load perspectives
-        $perspectives = DB::table('ips_tasks')
-        ->select('perspective')
-        ->distinct()
-        ->orderBy('perspective')
-        ->pluck('perspective');
+        //this is the data of bar graph average TAT
+        $tatData = DB::table('ips_tasks')
+            ->selectRaw('perspective, AVG(TAT) as avg_tat')
+            ->whereNotNull('status_date')
+            ->groupBy('perspective')
+            ->orderBy('perspective')
+            ->get();
+
+        $tatLabels = $tatData->pluck('perspective');
+        $tatValues = $tatData->pluck('avg_tat');
 
         //this to get data for the stacked chart
         $data = DB::table('ips_tasks')
@@ -96,7 +100,7 @@ class dashboardController extends Controller
         $pending = $data->pluck('pending');
 
         return view('dashboard', compact(
-            'totalEmployers', 'totalBillings', 'issuedBillings', 'overdueBillings', 'generatedBillings', 'typeLabels', 'typeCounts', 'totalOverdueBillings', 'totalIssuedBillings', 'totalGeneratedBillings', 'totalCaseFolderBillings', 'caseFolderBillings', 'totalSettledBillings', 'settledBillings', 'statusLabels', 'statusCounts', 'latestImportedData', 'totalRemitting', 'totalAccountLoad', 'totalDelinquent', 'totalNonRemitting', 'loadLabels', 'loadCounts', 'perspectives', 'labels', 'completed', 'pending', 'transmitted'
+            'totalEmployers', 'labels', 'totalBillings', 'issuedBillings', 'overdueBillings', 'generatedBillings', 'typeLabels', 'typeCounts', 'totalOverdueBillings', 'totalIssuedBillings', 'totalGeneratedBillings', 'totalCaseFolderBillings', 'caseFolderBillings', 'totalSettledBillings', 'settledBillings', 'statusLabels', 'statusCounts', 'latestImportedData', 'totalRemitting', 'totalAccountLoad', 'totalDelinquent', 'totalNonRemitting', 'loadLabels', 'loadCounts', 'completed', 'pending', 'transmitted', 'tatLabels', 'tatValues'
         ));
     }
 
